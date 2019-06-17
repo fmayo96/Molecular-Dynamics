@@ -44,7 +44,7 @@ for(int i = 0; i < N; i++)
 	{
 	for(int k = 0; k < 3; k++)
 		{
-		*(v+3*i+k) -= (float)*(Vcm+k)/(float)N;
+		*(v+3*i+k) -= (float)*(Vcm+k);
 		}
 	}
 float Ecin = 0;

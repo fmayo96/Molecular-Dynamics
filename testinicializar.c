@@ -24,7 +24,7 @@ float dl = set_box(X,N,L);
 float Ecin = set_v(v,N,T);
 for(int l = 0; l < N_frames; l++)
 	{
-	for(int i = 0; i < N; i++)
+	for(int i = 0; i < 3* N; i++)
 		{
 		*(X+i) += *(v+i)*t;
 		}
