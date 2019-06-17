@@ -10,7 +10,7 @@ float z = 0;
 
 for(i = 0; i < n; i++)
 	{
-	z  += random();
+	z  += Random();
 	}
 
 z = sqrt(12)*(z/n-0.5); //normal estándar.
