@@ -10,20 +10,27 @@
 
 int main()
 {
-int N = 100;
+int N = 125;
 float L = 10,T = 1;
-float *x = (float*)malloc(3*N*sizeof(float));
+float *X = (float*)malloc(3*N*sizeof(float));
 float *v = (float*)malloc(3*N*sizeof(float));
+float t = 0, dt = 0.1;
 
 char filename[255];
 sprintf(filename, "testinicializar.lammpstrj");
-int N_frames = 1;
+int N_frames = 100;
 
-float dl = set_box(x,N,L);
+float dl = set_box(X,N,L);
 float Ecin = set_v(v,N,T);
-
-save_lammpstrj(filename, x, v, N, L, 0);
-
+for(int l = 0; l < N_frames; l++)
+	{
+	for(int i = 0; i < N; i++)
+		{
+		*(X+i) += *(v+i)*t;
+		}
+	t += dt;
+	save_lammpstrj(filename, X, v, N, L, l);
+	}
 return 0;
 }
 
