@@ -27,6 +27,7 @@ for(int l = 0; l < N_frames; l++)
 	for(int i = 0; i < 3* N; i++)
 		{
 		*(X+i) += *(v+i)*t;
+		*(X+i) -= ((int)(*(X+i)/L) % (int)L) * L;
 		}
 	t += dt;
 	save_lammpstrj(filename, X, v, N, L, l);
