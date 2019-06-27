@@ -1,10 +1,10 @@
 #include "inicializar.h"
 #include "general.h"
 
-float set_box(float *X, int N, float L)
-{
+double set_box(double *X, int N, double L)
+{ // Ordena las partículas en una red cúbica. Coición inicial.
 int n=cbrt(N),i=0;
-float dl=L/n;
+double dl=L/n;
 for(int x = 0; x < n; x++)
 	{
 	for(int y = 0; y < n; y++)
@@ -21,38 +21,38 @@ for(int x = 0; x < n; x++)
 return dl;
 }
 
-float set_v(float *v, int N, float T)
-{
-float sigma=sqrt(T);
+double set_v(double *v, int N, double T)
+{ // Le da velocidad inicial a cada partículasiguiendo una distribución de probabilidad Gaussiana.
+double sigma=sqrt(T);
 for(int i = 0; i < 3*N; i++)
 	{
 	*(v+i)=Gaussiana(0.0, sigma);
 	}
-float *Vcm;
-Vcm = (float*)malloc(3*sizeof(float));
-*Vcm = 0;
+double *Vcm;
+Vcm = (double*)malloc(3*sizeof(double)); //Calculo la velocidad del 
+*Vcm = 0; // Centro de masa.
 *(Vcm+1) = 0;
 *(Vcm+2) = 0;
 for(int i = 0; i < N; i++)
 	{
 	for(int k = 0; k < 3; k++)
 		{
-		*(Vcm+k) += (float)*(v+3*i+k);  
+		*(Vcm+k) += (double)*(v+3*i+k);  
 		}	
 	}
 for(int i = 0; i < N; i++)
 	{
 	for(int k = 0; k < 3; k++)
-		{
-		*(v+3*i+k) -= (float)*(Vcm+k)/(float)N;
+		{ // Resto la Vcm para que no haya flujo de partíclas.
+		*(v+3*i+k) -= (double)*(Vcm+k)/(double)N;
 		}
 	}
-float Ecin = 0;
+double Ecin = 0;
 for(int i = 0; i < 3*N; i++)
 	{
 	Ecin += *(v+i)*(*(v+i));
 	} 
-Ecin = (float)Ecin/(float)2;
+Ecin = (double)Ecin/(double)2;
 return Ecin;
 }
 

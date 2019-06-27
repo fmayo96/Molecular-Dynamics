@@ -36,7 +36,7 @@ v=(float*)malloc(3*sizeof(float));
 *(v + 1) = 2;
 *(v + 2) = 2;
 
-printf("Norma= %f\n",Norma(v));
+printf("Norma2= %f\n",Norma2(v));
 
 // Test de Distance. Calcula la distancia entre v1 y v2.
 
@@ -52,7 +52,7 @@ v2=(float*)malloc(3*sizeof(float));
 *(v2 + 1) = 1;
 *(v2 + 2) = 0;
 
-printf("%f\n",Distance(v1,v2));
+printf("%f\n",Distance2(v1,v2));
 
 return 0;
 }

@@ -1,5 +1,5 @@
 #ifndef INICIALIZAR_H
 #define INICIALIZAR_H
-float set_box(float *x, int N, float L);
-float set_v(float *v, int N, float T);
+double set_box(double *x, int N, double L);
+double set_v(double *v, int N, double T);
 #endif

@@ -10,18 +10,18 @@
 // Guarda un unico frame, dependiendo del numero del frame lo appendea o
 // directamente crea un nuevo archivo. Los frame no tiene porque ser
 // consecutivos (skipeamos para "acelerar el video"), pero si crecientes
-int save_lammpstrj(char *filename, float* x, float* v, int N, float L, int frame){
+int save_lammpstrj(char *filename, double* x, double* v, int N, double L, int frame){
   FILE *fp;
   if (frame) fp = fopen(filename, "a"); // Si frame==0, es el primero y por lo tanto
   else fp = fopen(filename, "w");       // tiene que crear un nuevo archivo
   // Header que usa lammps
 	fprintf(fp, "ITEM: TIMESTEP\n%d\nITEM: NUMBER OF ATOMS\n%d\nITEM: BOX BOUNDS pp pp pp\n", frame, N);
 	for(int l = 0; l < 3; l++){
-		fprintf(fp, "0 %f\n", L); // Limites de la caja en x-y-z
+		fprintf(fp, "0 %lf\n", L); // Limites de la caja en x-y-z
 	}
 	fprintf(fp, "ITEM: ATOMS id x y z vx vy vz \n"); // "Nombre de las columnas"
 	for(int i = 0; i < N; i++){
-		fprintf(fp, "%d %f %f %f %f %f %f\n", i, x[3*i], x[3*i+1], x[3*i+2], v[3*i], v[3*i+1], v[3*i+2]);
+		fprintf(fp, "%d %lf %lf %lf %lf %lf %lf\n", i, x[3*i], x[3*i+1], x[3*i+2], v[3*i], v[3*i+1], v[3*i+2]);
 	}
   fclose(fp);
   return 0;
