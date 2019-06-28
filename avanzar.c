@@ -11,20 +11,23 @@ for(i = 0; i < 3*N; i++)
 	}
 return 0;
 }
-int verlet_vel(double *v, double *F, double h, int N)
+int verlet_vel(double *v, double *F, double *F2, double h, int N)
 {
 int i;
 for(i = 0; i < 3 * N; i++)
 	{
-	*(v + i) = *(v + i) + *(F + i) * h / 2;
+	*(v + i) = *(v + i) + (*(F + i) + *(F2 + i) )* h / 2;
 	}
 return 0;
 }
-double fuerzas(double *F, double *E_pot, double rc, int N, double *X, int l, int L, double *LUT_F, double *LUT_V, double r02, double deltar2, double *f_mod)
-{double rc2 = rc * rc;
+double fuerzas(double *F, double *F2, double *E_pot, double rc2, int N, double *X, int l, int L, double *LUT_F, double *LUT_V, double r02, double deltar2, double *f_mod)
+{
 double rij2;
 int i, j, k;
-
+for(i = 0; i < 3 * N; i++)
+	{
+	*(F2 + i) = *(F + i);
+	}
 double *delta_X;
 delta_X = (double*) malloc(3 * sizeof(double));
 for(i = 1; i <  N; i++)
@@ -42,8 +45,8 @@ for(i = 1; i <  N; i++)
 			*(E_pot + l) += pair_force(LUT_F, LUT_V, rij2, r02, deltar2, f_mod);
 			for(k = 0; k < 3; k++)
 				{
-				*(F + 3*i + k) += *f_mod * (*(delta_X + k)) / sqrt(rij2);
-				*(F + 3*j + k) -= *f_mod * (*(delta_X + k)) / sqrt(rij2); 
+				*(F + 3*i + k) += *f_mod * (*(delta_X + k));
+				*(F + 3*j + k) -= *f_mod * (*(delta_X + k)); 
 				}
 			}
 		}
@@ -55,7 +58,8 @@ int PBC_pos(double *X, double L,int N)
 {
 for(int i = 0; i < 3 * N; i++)
 	{
-	*(X + i) = fmod(fmod(*(X + i),L)+L,L);
+	*(X + i) = fmod( fmod( *(X + i), L) + L, L);
 	}
 return 0;
 }
+
