@@ -24,9 +24,8 @@ E_pot = (double*) malloc(N_frames * sizeof(double));
 E_cin = (double*) malloc(N_frames * sizeof(double));
 E_tot = (double*) malloc(N_frames * sizeof(double));
 double dt = 0.001;
-int i, l, size_lut= 100000;
-double r0 = 0.000025;
-double r02 = r0 * r0;
+int i, l, size_lut= 1000000;
+double r02 = 0.00000625;
 double rc2 = 6.25;
 
 

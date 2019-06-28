@@ -25,7 +25,9 @@ if(k < 0)
 	k = 0;
 	}
 *f_mod = ((rij2 - k * deltar2)/ deltar2) * (*(LUT_F + k + 1)-*(LUT_F + k)) + *(LUT_F + k);
-return ((rij2 - k * deltar2)/ deltar2) * (*(LUT_V + k +1)-*(LUT_V + k)) + *(LUT_V + k);
+double Vij = ((rij2 - k * deltar2)/ deltar2) * (*(LUT_V + k +1)-*(LUT_V + k)) + *(LUT_V + k);
+
+return Vij;
 }
 int PBC_force(double *delta_X, double L)
 {

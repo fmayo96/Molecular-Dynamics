@@ -7,8 +7,8 @@ int verlet_pos(double *X, double *v, double *F, double h, int N)
 int i;
 for(i = 0; i < 3*N; i++)
 	{
-	*(X + i) = *(X + i) + *(v + i) * h + *(F + i) * h * h / 2;
-	}
+	*(X + i) += *(v + i) * h + *(F + i) * h * h / 2.0;
+	}	
 return 0;
 }
 int verlet_vel(double *v, double *F, double *F2, double h, int N)
@@ -16,7 +16,7 @@ int verlet_vel(double *v, double *F, double *F2, double h, int N)
 int i;
 for(i = 0; i < 3 * N; i++)
 	{
-	*(v + i) = *(v + i) + (*(F + i) + *(F2 + i) )* h / 2;
+	*(v + i) += (*(F + i) + *(F2 + i) )* h / 2.0;
 	}
 return 0;
 }
@@ -27,6 +27,7 @@ int i, j, k;
 for(i = 0; i < 3 * N; i++)
 	{
 	*(F2 + i) = *(F + i);
+	*(F + i) = 0;
 	}
 double *delta_X;
 delta_X = (double*) malloc(3 * sizeof(double));
