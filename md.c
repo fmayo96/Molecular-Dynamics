@@ -12,9 +12,9 @@
 
 int main()
 {
-int N=125;
-int N_frames = 100;
-double L = 10, T = 1;
+int N = 216;
+int N_frames = 10000;
+double rho = 0.8442, L = cbrt(N / rho), T = 1;
 double *X = (double*) malloc (3 * N * sizeof(double));
 double *v = (double*) malloc (3 * N * sizeof(double));
 double *F = (double*) malloc (3 * N * sizeof(double));
@@ -23,7 +23,7 @@ double *E_pot, *E_cin, *E_tot;
 E_pot = (double*) malloc(N_frames * sizeof(double));
 E_cin = (double*) malloc(N_frames * sizeof(double));
 E_tot = (double*) malloc(N_frames * sizeof(double));
-double dt = 0.1;
+double dt = 0.001;
 int i, l, size_lut= 100000;
 double r0 = 0.000025;
 double r02 = r0 * r0;
