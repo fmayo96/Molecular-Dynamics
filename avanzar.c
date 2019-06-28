@@ -43,7 +43,7 @@ for(i = 1; i <  N; i++)
 		rij2 = Norma2(delta_X);
 		if(rij2 < rc2)
 			{
-			*(E_pot + l) += pair_force(LUT_F, LUT_V, rij2, r02, deltar2, f_mod);
+			*(E_pot + l) += pair_force(LUT_F, LUT_V, rij2, r02, deltar2, f_mod) / (double)N;
 			for(k = 0; k < 3; k++)
 				{
 				*(F + 3*i + k) += *f_mod * (*(delta_X + k));
