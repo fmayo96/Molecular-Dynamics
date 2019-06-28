@@ -59,7 +59,14 @@ int PBC_pos(double *X, double L,int N)
 {
 for(int i = 0; i < 3 * N; i++)
 	{
-	*(X + i) = fmod( fmod( *(X + i), L) + L, L);
+	if(*( X + i) > L)
+		{
+		*(X + i) -= L;
+		}
+	else if(*(X + i) < 0) 
+		{
+		*(X + i) += L;
+		}
 	}
 return 0;
 }
