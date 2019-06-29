@@ -26,7 +26,7 @@ for(i = 0; i <  N; i++)
 	}
 return 0;
 }
-double fuerzas(double *F, double *F2, double *E_pot, double rc2, int N, double *X, int l, int L, double *LUT_F, double *LUT_V, double r02, double deltar2, double *f_mod, double *delta_X)
+double fuerzas(double *F, double *F2, double *E_pot, double rc2, int N, double *X, int l, double L, double *LUT_F, double *LUT_V, double r02, double deltar2, double *f_mod, double *delta_X)
 {
 double rij2;
 int i, j, k;
@@ -35,9 +35,9 @@ for(i = 0; i < 3 * N; i++)
 	*(F2 + i) = *(F + i);
 	*(F + i) = 0;
 	}
-for(i = 1; i <  N; i++)
+for(i = 0; i <  N - 1; i++)
 	{
-	for(j = 0; j < i; j++)
+	for(j = i + 1; j < N; j++)
 		{
 		for(k = 0; k < 3; k++)
 			{
