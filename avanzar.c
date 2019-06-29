@@ -35,9 +35,9 @@ for(i = 0; i < 3 * N; i++)
 	*(F2 + i) = *(F + i);
 	*(F + i) = 0;
 	}
-for(i = 0; i <  N - 1; i++)
+for(i = 1; i <  N ; i++)
 	{
-	for(j = i + 1; j < N; j++)
+	for(j = 0; j < i; j++)
 		{
 		for(k = 0; k < 3; k++)
 			{
@@ -47,7 +47,7 @@ for(i = 0; i <  N - 1; i++)
 		rij2 = Norma2(delta_X);
 		if(rij2 < rc2)
 			{
-			 pair_force(LUT_F, LUT_V, rij2, r02, deltar2, f_mod);
+			*(E_pot + l) =  pair_force(LUT_F, LUT_V, rij2, r02, deltar2, f_mod);
 			for(k = 0; k < 3; k++)
 				{
 				*(F + 3*i + k) += *f_mod * (*(delta_X + k));
@@ -63,7 +63,7 @@ int PBC_pos(double *X, double L,int N)
 {
 for(int i = 0; i < 3 * N; i++)
 	{
-	if(*( X + i) >= L)
+	if(*( X + i) > L)
 		{
 		*(X + i) -= L;
 		}

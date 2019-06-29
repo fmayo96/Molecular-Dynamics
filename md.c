@@ -15,7 +15,7 @@ int main()
 // Defino las variables.
 srand(time(NULL));
 int N = 216;
-int N_frames = 10000;
+int N_frames = 2000;
 double rho = 0.8442, L = cbrt(N / rho), T = 2.0;
 double *X = (double*) malloc (3 * N * sizeof(double));
 double *v = (double*) malloc (3 * N * sizeof(double));
@@ -52,7 +52,7 @@ fuerzas(F, F2, E_pot, rc2, N, X, l, L, LUT_F, LUT_V, r02, deltar2, f_mod, delta_
 
 // Evolucion temporal.
 for(l = 1; l < N_frames; l++)
-	{
+	{printf("Progreso %lf %% \r",(double) l * 100 / N_frames);
 	*(E_cin + l) = 0;
 	*(E_pot + l) = 0;
 	verlet_pos(X, v, F, h, N);
