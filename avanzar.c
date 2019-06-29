@@ -4,23 +4,26 @@
 #include "avanzar.h"
 int verlet_pos(double *X, double *v, double *F, double h, int N)
 {
-int i;
-for(i = 0; i < 3*N; i++)
+int i, k;
+for(i = 0; i < N; i++)
 	{
-	*(X + i) += *(v + i) * h + *(F + i) * h * h / 2.0;
+	for(k = 0; k < 3; k++)
+		{
+		*(X + 3*i + k) += *(v + 3*i + k) * h + *(F + 3*i + k) * h * h / 2.0;
+		}
 	}	
 return 0;
 }
 int verlet_vel(double *v, double *F, double *F2, double h, int N)
 {
 int i;
-for(i = 0; i < 3 * N; i++)
+for(i = 0; i <  N; i++)
 	{
-	*(v + i) += (*(F + i) + *(F2 + i) )* h / 2.0;
+	*(v + 3*i + k) += (*(F + 3*i + k) + *(F2 + 3*i +k) )* h / 2.0;
 	}
 return 0;
 }
-double fuerzas(double *F, double *F2, double *E_pot, double rc2, int N, double *X, int l, int L, double *LUT_F, double *LUT_V, double r02, double deltar2, double *f_mod)
+double fuerzas(double *F, double *F2, double *E_pot, double rc2, int N, double *X, int l, int L, double *LUT_F, double *LUT_V, double r02, double deltar2, double *f_mod, double *delta_X)
 {
 double rij2;
 int i, j, k;
@@ -29,8 +32,6 @@ for(i = 0; i < 3 * N; i++)
 	*(F2 + i) = *(F + i);
 	*(F + i) = 0;
 	}
-double *delta_X;
-delta_X = (double*) malloc(3 * sizeof(double));
 for(i = 1; i <  N; i++)
 	{
 	for(j = 0; j < i; j++)

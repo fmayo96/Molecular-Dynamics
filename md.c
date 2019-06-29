@@ -13,6 +13,7 @@
 int main()
 {
 // Defino las variables.
+srand(time(NULL));
 int N = 216;
 int N_frames = 10000;
 double rho = 0.8442, L = cbrt(N / rho), T = 2;
@@ -24,11 +25,12 @@ double *E_pot, *E_cin, *E_tot;
 E_pot = (double*) malloc(N_frames * sizeof(double));
 E_cin = (double*) malloc(N_frames * sizeof(double));
 E_tot = (double*) malloc(N_frames * sizeof(double));
-double dt = 0.001;
+double h = 0.001;
 int i, l, size_lut= 1000000;
-double r02 = 0.00000625;
+double r02 = 0.00000025;
 double rc2 = 6.25;
-
+double *delta_X;
+delta_X = malloc(3 * sizeof(double));
 // Creo los programas para VMD y printear.
 char filename[255];
 sprintf(filename, "testinteraccion.lammpstrj");
@@ -46,27 +48,23 @@ double deltar2 = build_LUT(LUT_F, LUT_V, rc2, r02, size_lut);
 set_box(X, N, L);
 *E_cin = set_v(v, N, T);
 save_lammpstrj(filename, X, v, N, L, 0);
-for(i = 0; i < 3 * N; i++)
-	{
-	*(F + i) = 0;
-	*(F2 + i) = 0;
-	}
+fuerzas(F, F2, E_pot, rc2, N, X, l, L, LUT_F, LUT_V, r02, deltar2, f_mod);
+
 // Evolucion temporal.
 for(l = 1; l < N_frames; l++)
 	{
-	for(i = 0; i < 3 * N; i++)
-		{
-		*(F2 + i ) = *(F + i);
-		*(F + i) = 0;
-		}
 	*(E_cin + l) = 0;
 	*(E_pot + l) = 0;
-	verlet_pos(X, v, F, dt, N);
+	verlet_pos(X, v, F, h, N);
 	PBC_pos(X, L, N);
 	fuerzas(F, F2, E_pot, rc2, N, X, l, L, LUT_F, LUT_V, r02, deltar2, f_mod);
-	verlet_vel(v, F, F2, dt, N);
+	verlet_vel(v, F, F2, h, N);
 	*(E_cin + l) = Ecin(v, N);
 	save_lammpstrj(filename, X, v, N, L, l); 
+	}
+
+for(l = 0; l < N_frame; l++)
+	{
 	fprintf(fp2, "%lf %lf \n",*(E_cin + l), *(E_pot + l));
 	}
 

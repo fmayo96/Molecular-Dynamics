@@ -42,7 +42,7 @@ for(i = 1; i < N; i++)
 			}
 		PBC_force(delta_X, L);
 		rij2 = Norma2(delta_X);
-	//	printf("%lf \n", rij2);
+		printf("%lf \n", rij2);
 
 		if(rij2 < rc2)
 			{
