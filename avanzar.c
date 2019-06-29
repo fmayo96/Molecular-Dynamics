@@ -16,7 +16,7 @@ return 0;
 }
 int verlet_vel(double *v, double *F, double *F2, double h, int N)
 {
-int i;
+int i, k;
 for(i = 0; i <  N; i++)
 	{
 	for(k = 0; k < 3; k++)
@@ -47,7 +47,7 @@ for(i = 1; i <  N; i++)
 		rij2 = Norma2(delta_X);
 		if(rij2 < rc2)
 			{
-			 pair_force(LUT_F, LUT_V, rij2, r02, deltar2, f_mod) / (double)N;
+			 pair_force(LUT_F, LUT_V, rij2, r02, deltar2, f_mod);
 			for(k = 0; k < 3; k++)
 				{
 				*(F + 3*i + k) += *f_mod * (*(delta_X + k));

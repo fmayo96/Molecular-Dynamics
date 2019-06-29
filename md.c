@@ -26,7 +26,7 @@ E_pot = (double*) malloc(N_frames * sizeof(double));
 E_cin = (double*) malloc(N_frames * sizeof(double));
 E_tot = (double*) malloc(N_frames * sizeof(double));
 double h = 0.001;
-int i, l, size_lut= 1000000;
+int l = 0, size_lut= 1000000;
 double r02 = 0.00000025;
 double rc2 = 6.25;
 double *delta_X;
@@ -48,7 +48,7 @@ double deltar2 = build_LUT(LUT_F, LUT_V, rc2, r02, size_lut);
 set_box(X, N, L);
 *E_cin = set_v(v, N, T);
 save_lammpstrj(filename, X, v, N, L, 0);
-fuerzas(F, F2, E_pot, rc2, N, X, l, L, LUT_F, LUT_V, r02, deltar2, f_mod);
+fuerzas(F, F2, E_pot, rc2, N, X, l, L, LUT_F, LUT_V, r02, deltar2, f_mod, delta_X);
 
 // Evolucion temporal.
 for(l = 1; l < N_frames; l++)
@@ -57,13 +57,13 @@ for(l = 1; l < N_frames; l++)
 	*(E_pot + l) = 0;
 	verlet_pos(X, v, F, h, N);
 	PBC_pos(X, L, N);
-	fuerzas(F, F2, E_pot, rc2, N, X, l, L, LUT_F, LUT_V, r02, deltar2, f_mod);
+	fuerzas(F, F2, E_pot, rc2, N, X, l, L, LUT_F, LUT_V, r02, deltar2, f_mod, delta_X);
 	verlet_vel(v, F, F2, h, N);
 	*(E_cin + l) = Ecin(v, N);
 	save_lammpstrj(filename, X, v, N, L, l); 
 	}
 
-for(l = 0; l < N_frame; l++)
+for(l = 0; l < N_frames; l++)
 	{
 	fprintf(fp2, "%lf %lf \n",*(E_cin + l), *(E_pot + l));
 	}
