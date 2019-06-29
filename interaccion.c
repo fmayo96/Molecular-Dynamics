@@ -12,7 +12,7 @@ for(int i = 0; i < size_lut; i++)
 	rc6 = rc2 * rc2 * rc2;
 	r12 = r6 * r6;
 	rc12 = rc6 * rc6;  
-	*(LUT_F + i) = 24 * (1/rij2) * (2 /r12 - (1 / r6));
+	*(LUT_F + i) = 24 * (1/rij2) * ((2 /r12) - (1 / r6));
 	*(LUT_V + i) = 4 * (1/r12 - 1/r6) - 4 * (1/rc12 - 1/rc6) ;
 	}
 return deltar2;

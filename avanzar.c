@@ -17,7 +17,7 @@ return 0;
 int verlet_vel(double *v, double *F, double *F2, double h, int N)
 {
 int i, k;
-for(i = 0; i <  N; i++)
+for(i = 0; i <  N ; i++)
 	{
 	for(k = 0; k < 3; k++)
 		{
@@ -35,9 +35,9 @@ for(i = 0; i < 3 * N; i++)
 	*(F2 + i) = *(F + i);
 	*(F + i) = 0;
 	}
-for(i = 1; i <  N ; i++)
+for(i = 0; i <  N - 1 ; i++)
 	{
-	for(j = 0; j < i; j++)
+	for(j = i + 1; j < N; j++)
 		{
 		for(k = 0; k < 3; k++)
 			{

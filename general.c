@@ -1,10 +1,10 @@
 double Random() //devuelve un float aleatorio entre 0 y 1.
-{srand(time(NULL));
+{
 return((double)rand()/(double)RAND_MAX);
 }
 
 double Gaussiana(double mu, double sigma) // devuelve un float con proba gaussiana.
-{srand(time(NULL));
+{
 int n = 15, i;
 double z = 0;
 

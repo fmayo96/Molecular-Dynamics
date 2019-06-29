@@ -15,13 +15,13 @@ int main()
 // Defino las variables.
 srand(time(NULL));
 int N = 216;
-int N_frames = 2000;
+int N_frames = 100000, N_skip = 10;
 double rho = 0.8442, L = cbrt(N / rho), T = 2.0;
 double *X = (double*) malloc (3 * N * sizeof(double));
 double *v = (double*) malloc (3 * N * sizeof(double));
 double *F = (double*) malloc (3 * N * sizeof(double));
 double *F2 = (double*) malloc (3 * N * sizeof(double));
-double *E_pot, *E_cin, *E_tot;
+double *E_pot = 0, *E_cin, *E_tot;
 E_pot = (double*) malloc(N_frames * sizeof(double));
 E_cin = (double*) malloc(N_frames * sizeof(double));
 E_tot = (double*) malloc(N_frames * sizeof(double));
@@ -60,12 +60,13 @@ for(l = 1; l < N_frames; l++)
 	fuerzas(F, F2, E_pot, rc2, N, X, l, L, LUT_F, LUT_V, r02, deltar2, f_mod, delta_X);
 	verlet_vel(v, F, F2, h, N);
 	*(E_cin + l) = Ecin(v, N);
-	save_lammpstrj(filename, X, v, N, L, l); 
+	if(l % N_skip == 0)
+		save_lammpstrj(filename, X, v, N, L, l); 
 	}
 
 for(l = 0; l < N_frames; l++)
 	{
-	fprintf(fp2, "%lf %lf \n",*(E_cin + l), *(E_pot + l));
+	fprintf(fp2, "%lf %lf \n",*(E_cin + l) / (double)N, *(E_pot + l) /(double)N);
 	}
 
 free(X);
