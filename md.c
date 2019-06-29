@@ -16,7 +16,7 @@ int main()
 srand(time(NULL));
 int N = 216;
 int N_frames = 10000;
-double rho = 0.8442, L = cbrt(N / rho), T = 2;
+double rho = 0.8442, L = cbrt(N / rho), T = 2.0;
 double *X = (double*) malloc (3 * N * sizeof(double));
 double *v = (double*) malloc (3 * N * sizeof(double));
 double *F = (double*) malloc (3 * N * sizeof(double));

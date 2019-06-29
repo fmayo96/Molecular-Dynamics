@@ -38,7 +38,7 @@ for(i = 0; i < 3; i++)
 		{
 		*(delta_X + i) -= L;
 		}
-	else if(*(delta_X + i) < -L/2.0)
+	else if(*(delta_X + i) <= -L/2.0)
 		{
 		*(delta_X + i) += L;
 		}
