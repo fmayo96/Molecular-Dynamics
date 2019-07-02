@@ -14,8 +14,8 @@ int main()
 {
 // Defino las variables.
 srand(time(NULL));
-int N = 216;
-int N_frames = 100000, N_skip = 10;
+int N = 512;
+int N_frames = 120000, N_skip = 10i, N_T = 100,  Pasos_T = 1000;
 double rho = 0.8442, L = cbrt(N / rho), T = 2.0;
 double *X = (double*) malloc (3 * N * sizeof(double));
 double *v = (double*) malloc (3 * N * sizeof(double));
@@ -26,11 +26,13 @@ E_pot = (double*) malloc(N_frames * sizeof(double));
 E_cin = (double*) malloc(N_frames * sizeof(double));
 E_tot = (double*) malloc(N_frames * sizeof(double));
 double h = 0.001;
-int l = 0, size_lut= 1000000;
+int l = 0, size_lut= 500000;
 double r02 = 0.00000025;
 double rc2 = 6.25;
 double *delta_X;
 delta_X = malloc(3 * sizeof(double));
+double T_final = 0.728;
+double dT = (double) (T - T_final) / (double) Pasos_T;
 // Creo los programas para VMD y printear.
 char filename[255];
 sprintf(filename, "testinteraccion.lammpstrj");
@@ -51,7 +53,7 @@ save_lammpstrj(filename, X, v, N, L, 0);
 fuerzas(F, F2, E_pot, rc2, N, X, l, L, LUT_F, LUT_V, r02, deltar2, f_mod, delta_X);
 
 // Evolucion temporal.
-for(l = 1; l < N_frames; l++)
+for(l = 1; l < N_frames ; l++)
 	{printf("Progreso %lf %% \r",(double) l * 100 / N_frames);
 	*(E_cin + l) = 0;
 	*(E_pot + l) = 0;
@@ -62,11 +64,13 @@ for(l = 1; l < N_frames; l++)
 	*(E_cin + l) = Ecin(v, N);
 	if(l % N_skip == 0)
 		save_lammpstrj(filename, X, v, N, L, l); 
+	if(l % N_T == 0)
+		temp_change(v, N, E_cin, dT, l);
 	}
 
 for(l = 0; l < N_frames; l++)
 	{
-	fprintf(fp2, "%lf %lf \n",*(E_cin + l) / (double)N, *(E_pot + l) /(double)N);
+	fprintf(fp2, "%lf %lf \n",*(E_cin + l), *(E_pot + l) /(double)N);
 	}
 
 free(X);

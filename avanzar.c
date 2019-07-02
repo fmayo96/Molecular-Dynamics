@@ -47,7 +47,7 @@ for(i = 0; i <  N - 1 ; i++)
 		rij2 = Norma2(delta_X);
 		if(rij2 < rc2)
 			{
-			*(E_pot + l) =  pair_force(LUT_F, LUT_V, rij2, r02, deltar2, f_mod);
+			*(E_pot + l) +=  pair_force(LUT_F, LUT_V, rij2, r02, deltar2, f_mod);
 			for(k = 0; k < 3; k++)
 				{
 				*(F + 3*i + k) += *f_mod * (*(delta_X + k));
@@ -74,4 +74,15 @@ for(int i = 0; i < 3 * N; i++)
 	}
 return 0;
 }
-
+int temp_change(double *v, int N, double *E_cin, double dT, int l)
+{
+int i;
+double T0 = *(E_cin + l) * 2.0/3.0;
+double Tf = T0 - dT;
+double factor_T = sqrt((double) Tf / (double) T0);
+for(i = 0; i < 3 * N ; i++)
+	{
+	*(v + i) = *(v + i) * factor_T;
+	}
+return 0;
+}
