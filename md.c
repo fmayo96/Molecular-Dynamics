@@ -15,8 +15,8 @@ int main()
 // Defino las variables.
 srand(time(NULL));
 int N = 512;
-int N_frames = 120000, N_skip = 10i, N_T = 100,  Pasos_T = 1000;
-double rho = 0.8442, L = cbrt(N / rho), T = 2.0;
+int N_frames = 120000, N_skip = 10,  Pasos_T = 1000, Termalizacion = 100, N_T = Termalizacion * Pasos_T;
+double rho = 0.8442, L = cbrt(N / rho), T = 2.0, T_final = 0.728;
 double *X = (double*) malloc (3 * N * sizeof(double));
 double *v = (double*) malloc (3 * N * sizeof(double));
 double *F = (double*) malloc (3 * N * sizeof(double));
@@ -31,7 +31,6 @@ double r02 = 0.00000025;
 double rc2 = 6.25;
 double *delta_X;
 delta_X = malloc(3 * sizeof(double));
-double T_final = 0.728;
 double dT = (double) (T - T_final) / (double) Pasos_T;
 // Creo los programas para VMD y printear.
 char filename[255];
@@ -53,8 +52,8 @@ save_lammpstrj(filename, X, v, N, L, 0);
 fuerzas(F, F2, E_pot, rc2, N, X, l, L, LUT_F, LUT_V, r02, deltar2, f_mod, delta_X);
 
 // Evolucion temporal.
-for(l = 1; l < N_frames ; l++)
-	{printf("Progreso %lf %% \r",(double) l * 100 / N_frames);
+for(l = 1; l < N_T ; l++)
+	{printf("Progreso %.2lf %% \r",(double) l * 100 / N_frames);
 	*(E_cin + l) = 0;
 	*(E_pot + l) = 0;
 	verlet_pos(X, v, F, h, N);
@@ -64,9 +63,24 @@ for(l = 1; l < N_frames ; l++)
 	*(E_cin + l) = Ecin(v, N);
 	if(l % N_skip == 0)
 		save_lammpstrj(filename, X, v, N, L, l); 
-	if(l % N_T == 0)
+	
+	if(l % Termalizacion == 0)
 		temp_change(v, N, E_cin, dT, l);
+		
 	}
+for(l = N_T; l < N_frames ; l++)
+	{printf("Progreso %.2lf %% \r",(double) l * 100 / N_frames);
+	*(E_cin + l) = 0;
+	*(E_pot + l) = 0;
+	verlet_pos(X, v, F, h, N);
+	PBC_pos(X, L, N);
+	fuerzas(F, F2, E_pot, rc2, N, X, l, L, LUT_F, LUT_V, r02, deltar2, f_mod, delta_X);
+	verlet_vel(v, F, F2, h, N);
+	*(E_cin + l) = Ecin(v, N);
+	if(l % N_skip == 0)
+		save_lammpstrj(filename, X, v, N, L, l); 
+	}
+
 
 for(l = 0; l < N_frames; l++)
 	{
