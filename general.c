@@ -13,7 +13,7 @@ for(i = 0; i < n; i++)
 	z  += Random();
 	}
 
-z = sqrt(12)*(z/n-0.5); //normal estándar.
+z = sqrt(12.0 * (double)n)*(z/n-0.5); //normal estándar.
 
 return z*sigma + mu;
 }

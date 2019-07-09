@@ -74,11 +74,12 @@ for(int i = 0; i < 3 * N; i++)
 	}
 return 0;
 }
-int temp_change(double *v, int N, double *E_cin, double dT, int l)
+double temp_change(double *v, int N, double *E_cin, double T_final, double dT, int l, int Termalizacion, int Pasos_T)
 {
 int i;
-double T0 = *(E_cin + l) * 2.0/3.0;
-double Tf = T0 - dT;
+double T0 = *(E_cin + l) * 2.0 / 3.0;
+dT = (double)(T_final - T0) / (double) (Pasos_T - (l / Termalizacion));
+double Tf = T0 + dT;
 double factor_T = sqrt((double) Tf / (double) T0);
 for(i = 0; i < 3 * N ; i++)
 	{
